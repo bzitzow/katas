@@ -95,29 +95,34 @@ defmodule Katas do
   end
 
   def interpolation_search(num, num_list) do
-    if ((num < List.first(num_list)) || (num > List.last(num_list))) do
-      :notfound
-    else
     #    pos = lo + [ (x-arr[lo])*(hi-lo) / (arr[hi]-arr[Lo]) ]
-    pos = 1 + ( (num - List.first(num_list)) * (length(num_list) - 1) /
+    lo = 0
+    hi = length(num_list) - 1
+    pos = lo + ( (num - List.first(num_list)) * (hi - lo) /
       (List.last(num_list) - List.first(num_list))) |> round
 
-    element = Enum.at(num_list, pos-1)
-    [left | right] = Enum.chunk(num_list, pos, pos, [])
 
     cond do
+      (pos < 0) ->
+        :notfound
+      (List.first(num_list) > num) ->
+        :notfound
+      (List.last(num_list) < num) ->
+        :notfound
       (List.first(num_list) == num) ->
         num
       (List.last(num_list) == num) ->
         num
-      (element == num) ->
+      (Enum.at(num_list, pos) == num) ->
         num
-      (element > num) ->
+      (Enum.at(num_list, pos) > num) ->
+        [left | right] = Enum.chunk(num_list, pos, pos, [])
         interpolation_search(num, List.flatten(left))
       true ->
+        [left | right] = Enum.chunk(num_list, pos, pos, [])
         interpolation_search(num, List.flatten(right))
     end
+
   end
-end
 
 end
