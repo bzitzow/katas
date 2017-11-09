@@ -101,7 +101,6 @@ defmodule Katas do
     pos = lo + ( (num - List.first(num_list)) * (hi - lo) /
       (List.last(num_list) - List.first(num_list))) |> round
 
-
     cond do
       (pos < 0) ->
         :notfound
@@ -122,7 +121,5 @@ defmodule Katas do
         [left | right] = Enum.chunk(num_list, pos, pos, [])
         interpolation_search(num, List.flatten(right))
     end
-
-  end
-
+  end  
 end
